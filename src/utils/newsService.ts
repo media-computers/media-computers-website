@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const NEWS_API_KEY = '07272d8667eb47e986517f65e0f2e14a';
+const NEWS_API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY || '';
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
 
 // Cache duration in milliseconds (24 hours)
