@@ -95,11 +95,11 @@ export default function FeaturesSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className={`bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 text-center group relative overflow-hidden border border-gray-100 dark:border-gray-700 ${feature.hoverColor}`}
+                className={`bg-white dark:bg-gray-800 p-8 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.4)] transition-all duration-300 text-center group relative overflow-hidden border-2 border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 ${feature.hoverColor}`}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <div className={`p-5 rounded-full ${feature.iconBg} ${feature.color} mb-6 mx-auto w-16 h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                  <div className={`p-5 rounded-full ${feature.iconBg} ${feature.color} mb-6 mx-auto w-16 h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-lg`}>
                     <Icon className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-300 group-hover:text-orange-500 dark:group-hover:text-orange-400">

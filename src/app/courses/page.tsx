@@ -74,10 +74,13 @@ export default function CoursesPage() {
                 </div>
                 </div>
               <div className="flex justify-between items-center">
-                <Link href="/enquire">
+                <Link href="/enquire" onClick={(e) => e.stopPropagation()}>
                   <Button variant="outline" size="sm">Enquire</Button>
-                  </Link>
-                <Button onClick={() => setSelectedCourse(course)} size="sm">More Details</Button>
+                </Link>
+                <Button onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCourse(course);
+                }} size="sm">More Details</Button>
               </div>
             </motion.div>
           ))}

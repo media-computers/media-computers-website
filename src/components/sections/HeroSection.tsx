@@ -1,28 +1,17 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-
-const images = [
-  '/images/slider/1.webp',
-  '/images/slider/2.webp',
-  '/images/slider/3.webp',
-  '/images/slider/4.webp',
-  '/images/slider/5.webp',
-  '/images/slider/6.jpg',
-  '/images/slider/7.webp',
-];
+import { Calendar } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1,
     transition: {
-      staggerChildren: 0.1 // Stagger animation for children
+      staggerChildren: 0.1
     }
   },
 };
@@ -40,34 +29,6 @@ const itemVariants = {
   },
 };
 
-const imageVariants = {
-  hidden: { opacity: 0, scale: 0.8, x: 50 },
-  visible: { 
-    opacity: 1, 
-    scale: 1, 
-    x: 0, 
-    transition: { 
-      type: "spring", 
-      damping: 15, 
-      stiffness: 100, 
-      delay: 0.3 
-    }
-  },
-};
-
-const blobVariants = {
-  animate: {
-    x: ["-10%", "10%", "-10%"],
-    y: ["10%", "-10%", "10%"],
-    rotate: [0, 360],
-    transition: { 
-      x: { repeat: Infinity, duration: 8, ease: "easeInOut" },
-      y: { repeat: Infinity, duration: 10, ease: "easeInOut" },
-      rotate: { repeat: Infinity, duration: 15, ease: "linear" },
-    },
-  },
-};
-
 export default function HeroSection() {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -75,25 +36,92 @@ export default function HeroSection() {
   });
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
-    }, 3000); // Changed to 3 seconds for faster transition
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     router.push('/courses');
   };
 
+  // Countdown logic
+  const calculateTimeLeft = () => {
+    const now = new Date();
+    const EPOCH_START = new Date('2024-01-01T00:00:00Z').getTime(); // Fixed epoch for consistent 4-day cycles (adjust as needed)
+    const FOUR_DAYS_MS = 4 * 24 * 60 * 60 * 1000; // 4 days in milliseconds
+
+    const msSinceEpoch = now.getTime() - EPOCH_START;
+    const currentCycleIndex = Math.floor(msSinceEpoch / FOUR_DAYS_MS);
+
+    let targetTime = EPOCH_START + (currentCycleIndex + 1) * FOUR_DAYS_MS;
+
+    // If the current time is past the calculated target (e.g., if a new cycle just started but current time is still before its midnight start)
+    // This ensures the target time is always in the future and aligned to the next midnight 4-day boundary.
+    while (targetTime < now.getTime()) {
+      targetTime += FOUR_DAYS_MS;
+    }
+
+    const difference = targetTime - now.getTime();
+
+    let timeLeft: { days?: number; hours?: number; minutes?: number; seconds?: number } = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    } else {
+      timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
+
+  const timerComponents: JSX.Element[] = [];
+
+  Object.keys(timeLeft).forEach((interval) => {
+    // Type check for timeLeft[interval] to ensure it's a number before comparison
+    const value = timeLeft[interval as keyof typeof timeLeft];
+    if (typeof value === 'undefined' || value === null) {
+      return;
+    }
+
+    timerComponents.push(
+      <div className="text-center" key={interval}>
+        <div className="text-5xl font-extrabold text-gray-900 dark:text-white">
+          {value < 10 ? `0${value}` : value}
+        </div>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          {interval.charAt(0).toUpperCase() + interval.slice(1)}
+        </div>
+      </div>
+    );
+  });
+
   return (
     <section className="relative bg-white dark:bg-gray-900 min-h-screen flex items-center py-20 lg:py-0 overflow-hidden transition-colors duration-200">
-      {/* Background Gradient Effect */}
-      <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-orange-100 dark:from-orange-900/20 to-transparent opacity-50 z-0 transition-colors duration-200"></div>
-      <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-gray-100 dark:from-gray-800/20 to-transparent opacity-50 z-0 transition-colors duration-200"></div>
+      {/* Background shapes */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        className="absolute top-10 left-1/4 w-32 h-32 bg-yellow-200 dark:bg-yellow-800 rounded-full mix-blend-multiply filter blur-3xl opacity-60 z-0 transition-colors duration-200"
+      ></motion.div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.7 }}
+        className="absolute bottom-20 right-1/4 w-48 h-48 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl opacity-60 z-0 transition-colors duration-200"
+      ></motion.div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:min-h-screen">
@@ -107,19 +135,35 @@ export default function HeroSection() {
           >
             <motion.h1 
               variants={itemVariants}
-              className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight transition-colors duration-200"
+              className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight transition-colors duration-200 transform-gpu translate-z-10 rotate-x-2 rotate-y-1 hover:rotate-x-1 hover:rotate-y-0"
             >
               <span className="block font-['Futura Custom'] font-black text-[#CC0000] dark:text-red-500 text-7xl md:text-8xl lg:text-[10rem] transition-colors duration-200">MEDIA</span>
               <span className="block font-['Arial'] font-bold tracking-[0.2em] text-gray-900 dark:text-white text-3xl md:text-4xl">COMPUTER EDUCATION</span>
             </motion.h1>
             <motion.p 
               variants={itemVariants}
-              className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 transition-colors duration-200"
+              className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 transition-colors duration-200 transform-gpu translate-z-8 rotate-x-1 rotate-y-0.5 hover:rotate-x-0 hover:rotate-y-0"
             >
-              Join Media Computers to master cutting-edge technology and transform your career with our expert-led courses and comprehensive education programs.
+              From Learners to Trailblazers—Master Tech, Lead the Future
+            </motion.p>
+            <motion.p
+              variants={itemVariants}
+              className="text-md text-gray-500 dark:text-gray-400 max-w-xl mx-auto lg:mx-0 transition-colors duration-200 flex items-center justify-center lg:justify-start transform-gpu translate-z-6 rotate-x-0.5 rotate-y-0.2 hover:rotate-x-0 hover:rotate-y-0"
+            >
+              <Calendar className="h-5 w-5 mr-2 text-orange-500" />
+              Next Batch Enrollment
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-8">
+            {/* Countdown Timer */}
+            <motion.div
+              variants={itemVariants}
+              className="flex items-center justify-center lg:justify-start gap-6 mt-8 transform-gpu translate-z-12 rotate-x-3 rotate-y-1.5 hover:rotate-x-1 hover:rotate-y-0.5 shadow-lg rounded-xl p-4 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm transition-all duration-300"
+            >
+              {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+            </motion.div>
+
+            {/* Search Form */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-8 transform-gpu translate-z-10 rotate-x-2 rotate-y-1 hover:rotate-x-1 hover:rotate-y-0 shadow-md rounded-full bg-white/5 dark:bg-gray-800/10 backdrop-blur-sm transition-all duration-300">
               <form onSubmit={handleSearch} className="relative w-full max-w-md">
                 <input
                   type="text"
@@ -137,59 +181,91 @@ export default function HeroSection() {
               </form>
             </motion.div>
 
-            {/* Two CTAs */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-6">
+            {/* Original CTAs */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-6 transform-gpu translate-z-8 rotate-x-1.5 rotate-y-0.8 hover:rotate-x-0.5 hover:rotate-y-0.2">
               <Link
                 href="/courses"
-                className="w-full sm:w-auto px-8 py-3 bg-orange-500 dark:bg-orange-600 text-white rounded-full font-bold text-lg shadow-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-all duration-300 text-center"
+                className="w-full sm:w-auto px-8 py-3 bg-orange-500 dark:bg-orange-600 text-white rounded-full font-bold text-lg shadow-lg hover:bg-orange-600 dark:hover:bg-orange-700 transition-all duration-300 text-center transform-gpu hover:scale-105"
               >
                 More Courses
               </Link>
               <Link
                 href="/contact"
-                className="w-full sm:w-auto px-8 py-3 bg-white dark:bg-gray-800 text-orange-500 dark:text-orange-400 border-2 border-orange-500 dark:border-orange-600 rounded-full font-bold text-lg shadow-lg hover:bg-orange-50 dark:hover:bg-gray-700 transition-all duration-300 text-center"
+                className="w-full sm:w-auto px-8 py-3 bg-white dark:bg-gray-800 text-orange-500 dark:text-orange-400 border-2 border-orange-500 dark:border-orange-600 rounded-full font-bold text-lg shadow-lg hover:bg-orange-50 dark:hover:bg-gray-700 transition-all duration-300 text-center transform-gpu hover:scale-105"
               >
                 Enquire For More
               </Link>
             </motion.div>
           </motion.div>
 
-          {/* Right Content - Image with Abstract Shapes */}
+          {/* Right Content - Three Cutout Images */}
           <motion.div
             ref={ref}
-            variants={imageVariants}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="relative flex items-center justify-center h-96 lg:h-full"
+            variants={containerVariants}
+            className="relative flex items-center justify-center w-full h-96 lg:h-full lg:min-h-[600px]"
           >
-            {/* Blue Wave Shape */}
+            {/* Main Image */}
             <motion.div
-              variants={blobVariants}
-              animate="animate"
-              className="absolute -bottom-10 -left-10 w-64 h-64 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 transition-colors duration-200"
-            ></motion.div>
-            {/* Yellow Wave Shape */}
-            <motion.div
-              variants={blobVariants}
-              animate="animate"
-              className="absolute -top-10 -right-10 w-72 h-72 bg-yellow-200 dark:bg-yellow-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 transition-colors duration-200"
-            ></motion.div>
-            {/* Main Image - Slider */}
-            <motion.div 
-              key={currentSlide} // Key helps Motion to re-render and animate on slide change
-              initial={{ opacity: 0, scale: 0.98 }} // Slightly smaller scale for subtle entry
-              animate={{ opacity: 1, scale: 1 }} 
-              exit={{ opacity: 0, scale: 0.98 }} // Exit with a subtle scale out
-              transition={{ duration: 0.8, ease: "easeOut" }} // Longer duration for smoother fade
-              className="relative w-full h-full max-w-lg lg:max-w-none aspect-[3/4] lg:aspect-auto rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+              variants={itemVariants}
+              className="relative w-full max-w-2xl mx-auto lg:mx-0 lg:max-w-none perspective-[1500px]"
             >
-              <Image
-                src={images[currentSlide]}
-                alt={`Hero Slide ${currentSlide + 1}`}
-                layout="fill"
-                objectFit="cover"
-                className="transition-transform duration-300"
-              />
+              <div className="relative w-full h-[500px] lg:h-[650px] transform-gpu transition-all duration-500 rotate-y-5 rotate-x-3 -translate-z-100 transform-origin-center hover:scale-[1.03] hover:rotate-y-2 hover:rotate-x-1 shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.5)] dark:shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.25)] rounded-2xl overflow-hidden border-8 border-orange-500">
+                <Image
+                  src="/images/slider/1.webp"
+                  alt="Media Computers Learning Environment"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              
+              {/* Cutout Images */}
+              <div className="absolute -bottom-24 -right-24 w-64 h-64 lg:w-80 lg:h-80 z-20 transform-gpu transition-all duration-500 hover:scale-110">
+                <div className="relative w-full h-full rotate-[-10deg] hover:rotate-[-5deg] transition-all duration-300 shadow-[0_30px_60px_-15px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_30px_60px_-15px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
+                  <Image
+                    src="/images/slider/2.webp"
+                    alt="Student Success Stories"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              
+              <div className="absolute -top-20 -left-20 w-60 h-60 lg:w-76 lg:h-76 z-15 transform-gpu transition-all duration-500 hover:scale-110">
+                <div className="relative w-full h-full rotate-[10deg] hover:rotate-[5deg] transition-all duration-300 shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
+                  <Image
+                    src="/images/slider/3.webp"
+                    alt="Learning Environment"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              
+              <div className="absolute top-1/2 -right-32 transform -translate-y-1/2 w-52 h-52 lg:w-68 lg:h-68 z-10 transform-gpu transition-all duration-500 hover:scale-110">
+                <div className="relative w-full h-full rotate-[5deg] hover:rotate-[2deg] transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_20px_40px_-10px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
+                  <Image
+                    src="/images/slider/4.webp"
+                    alt="Technology Education"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* New Cutout Image (Bottom Left) */}
+              <div className="absolute -bottom-20 -left-20 w-60 h-60 lg:w-76 lg:h-76 z-18 transform-gpu transition-all duration-500 hover:scale-110">
+                <div className="relative w-full h-full rotate-[8deg] hover:rotate-[4deg] transition-all duration-300 shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
+                  <Image
+                    src="/images/slider/5.webp"
+                    alt="Collaborative Learning"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
