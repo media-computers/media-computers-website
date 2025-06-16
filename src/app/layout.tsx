@@ -53,7 +53,7 @@ export default function RootLayout({
         <link rel="icon" href="/images/favicon.png" />
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <Providers>
             <Navbar />
             <main className="flex-grow pt-24">
