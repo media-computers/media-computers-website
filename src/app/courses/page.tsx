@@ -67,7 +67,7 @@ export default function CoursesPage() {
                 </div>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">{course.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <Badge variant="primary" size="sm">{course.duration}</Badge>
+                  <Badge variant="primary" size="sm">Flexible (based on learning pace)</Badge>
                   <Badge variant="info" size="sm">
                     {course.level}
                   </Badge>
@@ -111,7 +111,7 @@ export default function CoursesPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Duration</h4>
-                <p className="text-gray-600 dark:text-gray-300">{selectedCourse.duration}</p>
+                <p className="text-gray-600 dark:text-gray-300">Flexible (based on learning pace)</p>
               </div>
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Level</h4>
