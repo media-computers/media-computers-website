@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { readSheet, appendToSheet, updateSheetRow, findRowByValue } from '@/utils/googleSheets';
 import { SHEETS } from '@/utils/sheetsData';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
 type SheetName = keyof typeof SHEETS;
 
