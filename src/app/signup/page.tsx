@@ -1,4 +1,4 @@
-import SignupForm from '@/components/SignupForm';
+import SignupFormWrapper from '@/components/SignupForm';
 
 export default function SignupPage() {
   return (
@@ -8,7 +8,7 @@ export default function SignupPage() {
           <h1 className="text-3xl font-bold text-gray-900">Create an Account</h1>
           <p className="mt-2 text-gray-600">Join Media Computers to access exclusive content and features</p>
         </div>
-        <SignupForm />
+        <SignupFormWrapper />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, CheckCircle2, XCircle } from 'lucide-react';
 import { signIn } from 'next-auth/react';
@@ -8,7 +8,15 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 const MIN_PASSWORD_LENGTH = 8;
 
-export default function SignupForm() {
+export default function SignupFormWrapper() {
+  return (
+    <Suspense>
+      <SignupForm />
+    </Suspense>
+  );
+}
+
+function SignupForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
