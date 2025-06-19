@@ -27,6 +27,10 @@ export const metadata = {
     index: true,
     follow: true,
   },
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: '#111827' },
+  ],
 };
 
 export const viewport = {
@@ -34,11 +38,6 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
 };
-
-export const themeColor = [
-  { media: '(prefers-color-scheme: light)', color: 'white' },
-  { media: '(prefers-color-scheme: dark)', color: '#111827' },
-];
 
 export default function RootLayout({
   children,
