@@ -3,8 +3,17 @@
 import { motion } from 'framer-motion'
 import ContactForm from '@/components/ContactForm'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default function EnquirePage() {
+  return (
+    <Suspense>
+      <EnquirePageInner />
+    </Suspense>
+  )
+}
+
+function EnquirePageInner() {
   const searchParams = useSearchParams()
   // const signupSuccess = searchParams.get('signupSuccess') === '1'
   return (
