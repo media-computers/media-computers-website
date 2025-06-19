@@ -38,6 +38,9 @@ export async function POST(request: Request) {
       rowIndex?: number;
     };
 
+    console.log('POST /api/sheets - Received body:', body);
+    console.log('POST /api/sheets - sheetName:', sheetName, 'data:', data, 'rowIndex:', rowIndex);
+
     if (!sheetName || !SHEETS[sheetName]) {
       return NextResponse.json({ error: 'Invalid sheet name' }, { status: 400 });
     }
@@ -49,6 +52,8 @@ export async function POST(request: Request) {
     const result = rowIndex !== undefined
       ? await updateSheetRow(sheetName, rowIndex, data)
       : await appendToSheet(sheetName, data);
+
+    console.log('POST /api/sheets - Google Sheets API result:', result);
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {
