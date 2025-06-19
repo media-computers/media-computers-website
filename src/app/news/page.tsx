@@ -111,10 +111,10 @@ export default function News() {
                 <div className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                   {/* Front of card */}
                   <div className="absolute inset-0 rounded-xl shadow-2xl [backface-visibility:hidden] bg-white dark:bg-gray-800 p-6 flex flex-col justify-between border-2 border-gray-200 dark:border-gray-700">
-                    {article.urlToImage && (
+                    {article.image && (
                       <div className="relative h-40 mb-4 rounded-lg overflow-hidden">
                         <img
-                          src={article.urlToImage}
+                          src={article.image}
                           alt={article.title}
                           className="w-full h-full object-cover"
                         />
