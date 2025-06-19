@@ -136,22 +136,6 @@ export default function GalleryPage() {
                   />
                 </motion.div>
               ))}
-              {/* Footer Image */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: galleryImages.length * 0.05 }} // Delay after all other images
-                viewport={{ once: true }}
-                className="relative aspect-video rounded-lg overflow-hidden shadow-xl border-4 border-black dark:border-gray-700 bg-white dark:bg-gray-800 col-span-full" // col-span-full to span 3 columns
-              >
-                <Image
-                  src="/images/image_galley/header_image.webp"
-                  alt="Gallery Footer"
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-300"
-                />
-              </motion.div>
             </div>
             {/* Load More Button */}
             {displayedImageCount < galleryImages.length && (

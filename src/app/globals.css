@@ -9,6 +9,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Futura XBlk BT';
+  src: url('/fonts/FUTURAXK_0.TTF') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
 :root {
   --primary: #2563eb;
 }

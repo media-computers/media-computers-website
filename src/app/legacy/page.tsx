@@ -42,7 +42,7 @@ const LegacyPage = () => {
           >
             <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'} transition-colors duration-200`}>Our History</h2>
             <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-200`}>
-              Founded in 1998, Media Computers has been at the forefront of computer education
+              Founded in 1997, Media Computers has been at the forefront of computer education
               for over two decades. We've grown from a small training center to a premier
               institution, touching thousands of lives through quality education.
             </p>

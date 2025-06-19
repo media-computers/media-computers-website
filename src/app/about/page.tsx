@@ -111,7 +111,7 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">Find Us on the Map</h2>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
             <MapPin className="inline-block mr-2 h-5 w-5 text-orange-500" />
-            Modern Complex, Kaktives Rd, Khade Bazar, Raviwar Peth,<br />
+            Modern Complex, Kaktives Rd, near Channamma Circle,<br />
             Belagavi, Karnataka 590001
           </p>
           <div className="aspect-w-16 aspect-h-9 w-full rounded-lg overflow-hidden shadow-md">
@@ -143,12 +143,12 @@ export default function About() {
               <p className="mt-2 text-lg font-semibold text-gray-800 dark:text-gray-200">MEDIA FASHION TECHNOLOGY</p>
             </div>
             <div className="flex flex-col items-center p-4">
-              <Image src="/images/prosoft.webp" alt="PROSOFT E SOLUTIONS" width={150} height={150} className="h-auto max-w-full rounded-lg shadow-md" />
-              <p className="mt-2 text-lg font-semibold text-gray-800 dark:text-gray-200">PROSOFT E SOLUTIONS</p>
+              <Image src="/images/prosoft.webp" alt="PROSFT E-SOLUTION" width={150} height={150} className="h-auto max-w-full rounded-lg shadow-md" />
+              <p className="mt-2 text-lg font-semibold text-gray-800 dark:text-gray-200">PROSFT E-SOLUTION</p>
             </div>
             <div className="flex flex-col items-center p-4">
-              <Image src="/images/dget.webp" alt="DEPARTMENT GENERAL OF EMPLOYMENT AND TRAINING (dget)" width={150} height={150} className="h-auto max-w-full rounded-lg shadow-md" />
-              <p className="mt-2 text-lg font-semibold text-gray-800 dark:text-gray-200">DGET</p>
+              <Image src="/images/dget.webp" alt="MEDIA ITI" width={150} height={150} className="h-auto max-w-full rounded-lg shadow-md" />
+              <p className="mt-2 text-lg font-semibold text-gray-800 dark:text-gray-200">MEDIA ITI</p>
             </div>
           </div>
         </motion.div>

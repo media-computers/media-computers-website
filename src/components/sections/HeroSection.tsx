@@ -122,7 +122,6 @@ export default function HeroSection() {
         transition={{ duration: 0.8, delay: 0.7 }}
         className="absolute bottom-20 right-1/4 w-48 h-48 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl opacity-60 z-0 transition-colors duration-200"
       ></motion.div>
-      
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:min-h-screen">
           {/* Left Content */}
@@ -137,7 +136,12 @@ export default function HeroSection() {
               variants={itemVariants}
               className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight transition-colors duration-200 transform-gpu translate-z-10 rotate-x-2 rotate-y-1 hover:rotate-x-1 hover:rotate-y-0"
             >
-              <span className="block font-['Futura Custom'] font-black text-[#CC0000] dark:text-red-500 text-7xl md:text-8xl lg:text-[10rem] transition-colors duration-200">MEDIA</span>
+              <span
+                style={{ fontFamily: 'Futura XBlk BT' }}
+                className="block text-[#CC0000] dark:text-red-500 text-7xl md:text-8xl lg:text-[10rem] transition-colors duration-200"
+              >
+                MEDIA
+              </span>
               <span className="block font-['Arial'] font-bold tracking-[0.2em] text-gray-900 dark:text-white text-3xl md:text-4xl">COMPUTER EDUCATION</span>
             </motion.h1>
             <motion.p 
@@ -197,8 +201,7 @@ export default function HeroSection() {
               </Link>
             </motion.div>
           </motion.div>
-
-          {/* Right Content - Three Cutout Images */}
+          {/* Right Content - Stretched Main Image Frame */}
           <motion.div
             ref={ref}
             initial="hidden"
@@ -206,65 +209,18 @@ export default function HeroSection() {
             variants={containerVariants}
             className="relative flex items-center justify-center w-full h-96 lg:h-full lg:min-h-[600px]"
           >
-            {/* Main Image */}
             <motion.div
               variants={itemVariants}
-              className="relative w-full max-w-2xl mx-auto lg:mx-0 lg:max-w-none perspective-[1500px]"
+              className="relative w-full mx-auto lg:mx-0 perspective-[1500px]"
             >
-              <div className="relative w-full h-[500px] lg:h-[650px] transform-gpu transition-all duration-500 rotate-y-5 rotate-x-3 -translate-z-100 transform-origin-center hover:scale-[1.03] hover:rotate-y-2 hover:rotate-x-1 shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.5)] dark:shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.25)] rounded-2xl overflow-hidden border-8 border-orange-500">
-                <Image
-                  src="/images/slider/1.webp"
-                  alt="Media Computers Learning Environment"
+              <div className="relative w-full h-[600px] lg:h-[750px] transform-gpu transition-all duration-500 rotate-y-5 rotate-x-3 -translate-z-100 transform-origin-center hover:scale-[1.03] hover:rotate-y-2 hover:rotate-x-1 shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.5)] dark:shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.25)] rounded-2xl overflow-hidden border-8 border-orange-500">
+              <Image
+                  src="/images/hero_section_background.JPG"
+                  alt="Media Computers Hero Section"
                   fill
                   className="object-cover"
                   priority
                 />
-              </div>
-              
-              {/* Cutout Images */}
-              <div className="absolute -bottom-24 -right-24 w-64 h-64 lg:w-80 lg:h-80 z-20 transform-gpu transition-all duration-500 hover:scale-110">
-                <div className="relative w-full h-full rotate-[-10deg] hover:rotate-[-5deg] transition-all duration-300 shadow-[0_30px_60px_-15px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_30px_60px_-15px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
-                  <Image
-                    src="/images/slider/2.webp"
-                    alt="Student Success Stories"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-              
-              <div className="absolute -top-20 -left-20 w-60 h-60 lg:w-76 lg:h-76 z-15 transform-gpu transition-all duration-500 hover:scale-110">
-                <div className="relative w-full h-full rotate-[10deg] hover:rotate-[5deg] transition-all duration-300 shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
-                  <Image
-                    src="/images/slider/3.webp"
-                    alt="Learning Environment"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-              
-              <div className="absolute top-1/2 -right-32 transform -translate-y-1/2 w-52 h-52 lg:w-68 lg:h-68 z-10 transform-gpu transition-all duration-500 hover:scale-110">
-                <div className="relative w-full h-full rotate-[5deg] hover:rotate-[2deg] transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_20px_40px_-10px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
-                  <Image
-                    src="/images/slider/4.webp"
-                    alt="Technology Education"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* New Cutout Image (Bottom Left) */}
-              <div className="absolute -bottom-20 -left-20 w-60 h-60 lg:w-76 lg:h-76 z-18 transform-gpu transition-all duration-500 hover:scale-110">
-                <div className="relative w-full h-full rotate-[8deg] hover:rotate-[4deg] transition-all duration-300 shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.4)] dark:shadow-[0_25px_50px_-12px_rgba(8,_112,_184,_0.2)] rounded-xl overflow-hidden border-8 border-orange-500">
-                  <Image
-                    src="/images/slider/5.webp"
-                    alt="Collaborative Learning"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
               </div>
             </motion.div>
           </motion.div>
