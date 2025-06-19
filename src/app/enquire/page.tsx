@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion'
 import ContactForm from '@/components/ContactForm'
+import { useSearchParams } from 'next/navigation'
 
 export default function EnquirePage() {
+  const searchParams = useSearchParams()
+  // const signupSuccess = searchParams.get('signupSuccess') === '1'
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
       <section className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">

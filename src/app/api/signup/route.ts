@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { hash } from "bcryptjs"
-import { appendToSheet, readSheet } from "@/utils/googleSheets"
+import { appendToSheet, readSheet, invalidateSheetCache } from "@/utils/googleSheets"
 
 const MIN_PASSWORD_LENGTH = 8
 
@@ -54,6 +54,7 @@ export async function POST(req: Request) {
       Password: hashedPassword,
       Date: new Date().toISOString()
     })
+    invalidateSheetCache('SIGNUPS');
 
     return NextResponse.json(
       { message: "User registered successfully" },

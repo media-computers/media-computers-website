@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { readSheet, appendToSheet, updateSheetRow, findRowByValue } from '@/utils/googleSheets';
 import { SHEETS } from '@/utils/sheetsData';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 type SheetName = keyof typeof SHEETS;
 
@@ -31,6 +33,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    // Check for user session
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: 'Not authenticated', redirect: '/login?redirect=/enquire' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { sheetName, data, rowIndex } = body as {
       sheetName: SheetName;

@@ -12,6 +12,7 @@ export default function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [signupPrompt, setSignupPrompt] = useState(false);
 
   // Add phone validation
   const isValidPhone = (phone: string) => /^\d{10,15}$/.test(phone);
@@ -53,6 +54,12 @@ export default function ContactForm() {
       const result = await response.json();
       console.log('Response data:', result);
       
+      if (response.status === 401 && result.redirect) {
+        // Redirect to signup with a query param to show the message
+        window.location.href = result.redirect + '?signupPrompt=1';
+        return;
+      }
+
       if (result.error) {
         throw new Error(result.error);
       }

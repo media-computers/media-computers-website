@@ -4,6 +4,8 @@ import { google } from 'googleapis'
 import { compare } from 'bcryptjs'
 import { readSheet } from '@/utils/googleSheets'
 import { JWT } from 'google-auth-library'
+import type { AuthOptions, Session, User } from 'next-auth'
+import type { JWT as JWTType } from 'next-auth/jwt'
 
 // Initialize the Google Sheets API
 const auth = new JWT({
@@ -14,7 +16,7 @@ const auth = new JWT({
 
 const sheets = google.sheets({ version: 'v4', auth })
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -63,7 +65,7 @@ const handler = NextAuth({
     })
   ],
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt' as const,
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
@@ -71,19 +73,21 @@ const handler = NextAuth({
     error: '/login',
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWTType, user?: User }) {
       if (user) {
         token.id = user.id
       }
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session, token: JWTType }) {
       if (session.user) {
         (session.user as any).id = token.id
       }
       return session
     }
   }
-})
+};
 
-export { handler as GET, handler as POST } 
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST }; 

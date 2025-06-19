@@ -187,4 +187,9 @@ export async function findRowByValue(sheetName: keyof typeof SHEETS, columnIndex
     console.error(`Error finding row in ${sheetName}:`, error);
     throw error;
   }
+}
+
+// Invalidate cache for a specific sheet
+export function invalidateSheetCache(sheetName: keyof typeof SHEETS) {
+  cache.delete(sheetName);
 } 

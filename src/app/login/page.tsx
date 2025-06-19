@@ -1,13 +1,17 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
+  const searchParams = useSearchParams();
+  const enquirePrompt = searchParams.get('enquire') === '1';
+  const redirectPath = searchParams.get('redirect');
+  const signupLink = `/signup${redirectPath ? `?redirect=${encodeURIComponent(redirectPath)}` : ''}`;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,7 +31,11 @@ export default function LoginPage() {
         return
       }
 
-      router.push('/')
+      if (redirectPath) {
+        router.push(redirectPath);
+      } else {
+        router.push('/');
+      }
       router.refresh()
     } catch (error) {
       setError('Something went wrong')
@@ -41,6 +49,11 @@ export default function LoginPage() {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
+          {enquirePrompt && (
+            <div className="bg-yellow-100 border-2 border-yellow-400 text-yellow-700 px-4 py-3 rounded-md mt-4 text-center">
+              Please sign in or create an account to make an enquiry.
+            </div>
+          )}
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
@@ -87,7 +100,7 @@ export default function LoginPage() {
           </div>
 
           <div className="text-sm text-center">
-            <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href={signupLink} className="font-medium text-blue-600 hover:text-blue-500">
               Don't have an account? Register
             </Link>
           </div>
