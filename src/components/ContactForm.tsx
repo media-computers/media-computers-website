@@ -13,11 +13,21 @@ export default function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  // Add phone validation
+  const isValidPhone = (phone: string) => /^\d{10,15}$/.test(phone);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(false);
+
+    // Validate phone number
+    if (!isValidPhone(formData.Phone)) {
+      setLoading(false);
+      setError('Please enter a valid phone number (numbers only, 10-15 digits).');
+      return;
+    }
 
     try {
       console.log('Submitting form data:', formData);
@@ -118,6 +128,8 @@ export default function ContactForm() {
           value={formData.Phone}
           onChange={handleChange}
           required
+          pattern="[0-9]{10,15}"
+          inputMode="numeric"
           className={inputStyles}
           placeholder="Enter your phone number"
         />
