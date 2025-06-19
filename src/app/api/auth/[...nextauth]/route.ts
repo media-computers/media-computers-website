@@ -8,7 +8,7 @@ import { JWT } from 'google-auth-library'
 // Initialize the Google Sheets API
 const auth = new JWT({
   email: 'media-computers-sheets@civil-partition-462216-n4.iam.gserviceaccount.com',
-  key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+  key: Buffer.from(process.env.GOOGLE_PRIVATE_KEY_BASE64!, 'base64').toString('utf-8'),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 

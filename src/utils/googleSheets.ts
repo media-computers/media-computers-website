@@ -11,7 +11,7 @@ console.log('GOOGLE_SHEET_ID:', process.env.GOOGLE_SHEET_ID ? 'Present' : 'Missi
 // Initialize the Google Sheets API
 const auth = new JWT({
   email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+  key: Buffer.from(process.env.GOOGLE_PRIVATE_KEY_BASE64!, 'base64').toString('utf-8'),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
