@@ -14,11 +14,11 @@ const inter = Inter({
 export const metadata = {
   title: 'Media Computers',
   description: 'Your trusted partner in computer education and services',
-  metadataBase: new URL('https://yourdomain.com'),
+  metadataBase: new URL('https://www.mediacomputereducation.com'),
   openGraph: {
     title: 'Media Computers',
     description: 'Your trusted partner in computer education and services',
-    url: 'https://yourdomain.com',
+    url: 'https://www.mediacomputereducation.com',
     siteName: 'Media Computers',
     locale: 'en_US',
     type: 'website',
