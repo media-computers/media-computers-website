@@ -127,6 +127,7 @@ export default function Footer() {
                   <span className="sr-only">{social.name}</span>
                 </a>
               ))}
+              <a href="/privacy-policy" className="text-sm font-bold text-orange-500 border border-orange-500 rounded px-2 py-1 bg-orange-50 hover:bg-orange-100 hover:text-orange-600 transition shadow-sm">Privacy Policy</a>
             </div>
           </div>
         </div>
