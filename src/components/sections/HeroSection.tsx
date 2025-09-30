@@ -36,6 +36,18 @@ export default function HeroSection() {
   });
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const sliderImages = [
+    '/images/hero_section_background.JPG',
+    '/images/deepawali_banner.jpg',
+  ];
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [sliderImages.length]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,7 +213,7 @@ export default function HeroSection() {
               </Link>
             </motion.div>
           </motion.div>
-          {/* Right Content - Stretched Main Image Frame */}
+          {/* Right Content - Slider that links to Announcements & Offers */}
           <motion.div
             ref={ref}
             initial="hidden"
@@ -213,15 +225,25 @@ export default function HeroSection() {
               variants={itemVariants}
               className="relative w-full mx-auto lg:mx-0 perspective-[1500px]"
             >
-              <div className="relative w-full h-[600px] lg:h-[750px] transform-gpu transition-all duration-500 rotate-y-5 rotate-x-3 -translate-z-100 transform-origin-center hover:scale-[1.03] hover:rotate-y-2 hover:rotate-x-1 shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.5)] dark:shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.25)] rounded-2xl overflow-hidden border-8 border-orange-500">
-              <Image
-                  src="/images/hero_section_background.JPG"
-                  alt="Media Computers Hero Section"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
+              <Link href="/announcements-offers" className="block group">
+                <div className="relative w-full h-[600px] lg:h-[750px] transform-gpu transition-all duration-500 rotate-y-5 rotate-x-3 -translate-z-100 transform-origin-center group-hover:scale-[1.03] group-hover:rotate-y-2 group-hover:rotate-x-1 shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.5)] dark:shadow-[0_50px_100px_-30px_rgba(8,_112,_184,_0.25)] rounded-2xl overflow-hidden border-8 border-orange-500">
+                  <Image
+                    src={sliderImages[currentSlide]}
+                    alt="Announcements & Offers"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+                    {sliderImages.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`w-2 h-2 rounded-full ${currentSlide === idx ? 'bg-white' : 'bg-white/50'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

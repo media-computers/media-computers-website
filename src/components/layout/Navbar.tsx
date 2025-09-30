@@ -13,6 +13,7 @@ const navigation = [
   { name: 'Courses', href: '/courses', icon: BookOpen },
   { name: 'Book My Page', href: '/bookings', icon: Calendar },
   { name: 'News', href: '/news', icon: Newspaper },
+  { name: 'Announcements & Offers', href: '/announcements-offers', icon: Newspaper },
   { name: 'About Us', href: '/about', icon: Info },
   { name: 'Our Legacy', href: '/legacy', icon: Landmark },
   { name: 'Gallery', href: '/gallery', icon: ImageIcon },
