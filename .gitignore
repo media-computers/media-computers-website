@@ -32,3 +32,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts 
+
+# project-specific bulky/derived assets not needed in git
+Futura_Fonts/
+Futura_Fonts/**
+courses detail/
+
+# temporary/sample pages
+src/app/test/
+src/app/test-image/
+
+# editor settings
+.idea/
+.vscode/
